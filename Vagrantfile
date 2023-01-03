@@ -31,8 +31,9 @@ Vagrant.configure("2") do |config|
     for interface in `ls /sys/class/net`; do if [ $interface != "lo" ] && [ $interface != tun1 ]; then ufw route allow in on $interface out on tun1; fi done
     echo "y" | ufw enable
     # Disable ipv6
-    grep net.ipv6.conf.all.disable_ipv6 /etc/system.conf || (echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/system.conf)
-    grep net.ipv6.conf.default.disable_ipv6  /etc/system.conf || (echo "net.ipv6.conf.default.disable_ipv6  = 1" | sudo tee -a /etc/system.conf)
-    grep net.ipv6.conf.lo.disable_ipv6 /etc/system.conf || (echo "net.ipv6.conf.lo.disable_ipv6 = 1" | sudo tee -a /etc/system.conf)
+    grep net.ipv6.conf.all.disable_ipv6 /etc/sysctl.conf || (echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf)
+    grep net.ipv6.conf.default.disable_ipv6  /etc/sysctl.conf || (echo "net.ipv6.conf.default.disable_ipv6  = 1" | sudo tee -a /etc/sysctl.conf)
+    grep net.ipv6.conf.lo.disable_ipv6 /etc/sysctl.conf || (echo "net.ipv6.conf.lo.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf)
+    sysctl -p
   SHELL
 end
