@@ -3,6 +3,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/kinetic64"
+  config.vm.hostname = "caronte"
   config.vm.network "public_network"
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provision "shell", inline: <<-SHELL
@@ -29,5 +30,7 @@ Vagrant.configure("2") do |config|
     ufw allow 22
     for interface in `ls /sys/class/net`; do if [ $interface != "lo" ] && [ $interface != tun1 ]; then ufw route allow in on $interface out on tun1; fi done
     echo "y" | ufw enable
+    # Disable ipv6
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1
   SHELL
 end
