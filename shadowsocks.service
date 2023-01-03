@@ -1,0 +1,13 @@
+[Unit]
+Description=Shadowsocks proxy 
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=vagrant
+ExecStart=/usr/bin/ss-local -c /etc/proxy.json
+
+[Install]
+WantedBy=multi-user.target
