@@ -7,7 +7,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=vagrant
-ExecStart=/usr/bin/ss-local -c /etc/proxy.json
+ExecStart=/snap/bin/shadowsocks-rust.sslocal -c /home/vagrant/proxy.json
 
 [Install]
 WantedBy=multi-user.target

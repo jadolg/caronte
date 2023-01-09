@@ -7,15 +7,13 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network"
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provision "shell", inline: <<-SHELL
-    # update the system
-    apt update && apt upgrade -y
     # install the shadowsocks application
-    apt install shadowsocks-libev -y
+    snap install shadowsocks-rust
     # install tun2socks
     wget https://github.com/jadolg/go-tun2socks/releases/download/v1.0.2/tun2socks -O /usr/bin/tun2socks
     chmod +x /usr/bin/tun2socks
     # copy the proxy configuration 
-    cp /vagrant/proxy.json /etc/
+    cp /vagrant/proxy.json /home/vagrant/
     # setup the proxy service
     cp /vagrant/shadowsocks.service /etc/systemd/system/shadowsocks.service
     systemctl enable shadowsocks
