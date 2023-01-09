@@ -14,12 +14,13 @@ Vagrant.configure("2") do |config|
     chmod +x /usr/bin/tun2socks
     # copy the proxy configuration 
     cp /vagrant/proxy.json /home/vagrant/
+    chown vagrant:vagrant /home/vagrant/proxy.json
     # setup the proxy service
     cp /vagrant/shadowsocks.service /etc/systemd/system/shadowsocks.service
     systemctl enable shadowsocks
     systemctl restart shadowsocks
     # setup tun2socks
-    SERVER=$(cat /etc/proxy.json | jq -r .server) envsubst < /vagrant/tun2socks.service > /etc/systemd/system/tun2socks.service
+    SERVER=$(cat /home/vagrant/proxy.json | jq -r .server) envsubst < /vagrant/tun2socks.service > /etc/systemd/system/tun2socks.service
     systemctl enable tun2socks
     systemctl restart tun2socks
     # setup forwarding
